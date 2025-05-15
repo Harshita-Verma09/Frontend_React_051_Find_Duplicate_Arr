@@ -152,7 +152,7 @@ const heapq = {
   },
 };
 ``` 
-** Time and Space Complexity
+Time and Space Complexity
 Time Complexity: $O(N \log k)$, where $N$ is the total number of elements across all $k$ lists. In the worst case, we might process each element once, and each heap operation takes $O(\log k)$ time.
 Space Complexity: $O(k)$, as the min-heap will at most contain one element from each of the $k$ lists. The pointers array also takes $O(k)$ space.
 Key Considerations
