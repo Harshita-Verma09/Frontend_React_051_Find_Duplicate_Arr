@@ -1,5 +1,3 @@
-Markdown
-
 # Smallest Range in K Sorted Lists
 
 ## Problem Description
@@ -8,39 +6,33 @@ Given a 2D integer array `arr[][]` of size `k*n`, where each row is sorted in as
 
 **Difficulty:** Hard
 
-**Examples:** 
-
-
 ## Solution Approach
 
-The solution utilizes a min-heap to efficiently find the smallest range. The core idea is to maintain a sliding window of elements, ensuring that the window always contains at least one element from each of the `k` sorted lists. We then iteratively adjust this window to minimize its size.
+The solution uses a min-heap to efficiently find the smallest range. The main idea is to maintain a sliding window of elements, ensuring the window always contains at least one element from each of the `k` sorted lists. The window is adjusted iteratively to minimize its size.
 
-**Algorithm:**
+### Algorithm Steps
 
-1.  **Initialization:**
-    * `k`: The number of sorted lists (rows in `arr`).
-    * `pointers`: An array of size `k` to keep track of the current index being considered in each list, initialized to all zeros.
-    * `minHeap`: A min-priority queue to store tuples of `[value, listIndex]`, where `value` is the current element and `listIndex` is the index of the list it belongs to.
-    * `maxVal`: Keeps track of the maximum value currently present in the `minHeap`.
-    * `rangeStart`, `rangeEnd`: Variables to store the start and end of the smallest range found so far, initialized to `0` and `Infinity` respectively.
+1. **Initialization:**
+   - `k`: Number of sorted lists.
+   - `pointers`: Array to track the current index in each list.
+   - `minHeap`: Min-priority queue storing `[value, listIndex]`.
+   - `maxVal`: Tracks the maximum value in the current window.
+   - `rangeStart`, `rangeEnd`: Store the smallest range found.
 
-2.  **Initial Heap Population:**
-    * Iterate through the first element of each of the `k` lists.
-    * Push a tuple `[arr[i][0], i]` into the `minHeap`.
-    * Update `maxVal` with the maximum of these initial elements.
+2. **Initial Heap Population:**
+   - Push the first element of each list into the min-heap.
+   - Update `maxVal` with the maximum of these elements.
 
-3.  **Iterative Range Minimization:**
-    * While it's possible to extract an element from each of the `k` lists (i.e., we haven't reached the end of any list for the current minimum element):
-        * Extract the minimum element `[minVal, listIndex]` from the `minHeap`.
-        * Check if the current range `(maxVal - minVal)` is smaller than the smallest range found so far `(rangeEnd - rangeStart)`. If it is, update `rangeStart = minVal` and `rangeEnd = maxVal`.
-        * Advance the pointer for the list from which the minimum element came (`pointers[listIndex]++`).
-        * If the pointer for `listIndex` reaches the end of that list (`arr[listIndex].length`), it means we cannot include an element from this list in any further valid range, so we break the loop.
-        * Otherwise, get the next element from the same list: `nextVal = arr[listIndex][pointers[listIndex]]`.
-        * Push `[nextVal, listIndex]` into the `minHeap`.
-        * Update `maxVal = Math.max(maxVal, nextVal)`.
+3. **Iterative Range Minimization:**
+   - While all lists have elements in the window:
+     - Extract the minimum element from the min-heap.
+     - If the current range is smaller than the previous, update `rangeStart` and `rangeEnd`.
+     - Advance the pointer for the list from which the minimum element came.
+     - If any list is exhausted, break.
+     - Otherwise, push the next element from that list into the min-heap and update `maxVal`.
 
-4.  **Return Result:**
-    * Return the `[rangeStart, rangeEnd]`.
+4. **Return Result:**
+   - Return `[rangeStart, rangeEnd]`.
 
 ## Implementation (JavaScript)
 
@@ -87,7 +79,7 @@ class Solution {
   }
 }
 
-// Helper function for min-heap implementation (using array-based heap)
+// Helper function for min-heap implementation
 const heapq = {
   heap: [],
   parent: (i) => Math.floor((i - 1) / 2),
@@ -151,12 +143,9 @@ const heapq = {
     return this.heap.length;
   },
 };
-``` 
-Time and Space Complexity
-Time Complexity: $O(N \log k)$, where $N$ is the total number of elements across all $k$ lists. In the worst case, we might process each element once, and each heap operation takes $O(\log k)$ time.
-Space Complexity: $O(k)$, as the min-heap will at most contain one element from each of the $k$ lists. The pointers array also takes $O(k)$ space.
-Key Considerations
-The input lists are guaranteed to be sorted, which is essential for the efficiency of this algorithm.
-The use of a min-heap allows for efficient tracking of the smallest element across the current window of elements from the k lists.
-The algorithm naturally finds the "first" smallest range because it iteratively shrinks the range and updates the result whenever a smaller valid range is encountered.
-<!-- end list -->
+```
+
+## Time and Space Complexity
+
+- **Time Complexity:** $O(N \log k)$, where $N$ is the total number of elements across all $k$ lists. Each heap operation takes $O(\log k)$ time.
+- **Space Complexity:** $O(k)$, as the
